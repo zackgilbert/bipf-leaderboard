@@ -14,6 +14,10 @@ Tasks Completed on 2023-03-09
 <img width="772" alt="Screen Shot 2023-03-09 at 9 19 53 PM" src="https://user-images.githubusercontent.com/432526/224217546-2184d982-43ab-4acc-bad1-cb6575e8b9a4.png">
 
 
+Tasks Completed on 2023-03-10
+- [ ] 
+
+
 Todo:
 - [ ] Sort users by activity
 - [ ] User LinkedIn authentication

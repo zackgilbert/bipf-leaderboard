@@ -60,7 +60,7 @@
                     <div class="text-gray-900">
                       <a href="https://twitter.com/<%= u.twitter_username %>"><%= u.posts.count %></a>
                       <% if session[:twitter] && session[:twitter_forced] != true %>
-                      <a href="/<%= session[:twitter] %>/sync?force=true">(force sync)</a>
+                      <a href="/sync/twitter?force=true">(force sync)</a>
                       <% end %>
                     </div>
                   </td>

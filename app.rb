@@ -61,9 +61,52 @@ class App < Sinatra::Base
     redirect request_token.authorize_url
   end
 
-  get '/:username/sync' do
+  get '/auth/twitter/callback' do
+    oauth = OAuth::Consumer.new(
+      TWITTER_KEY,
+      TWITTER_SECRET,  
+      :site => 'https://api.twitter.com',
+      :scheme => :header,
+      :http_method => :post,
+      :request_token_path => "/oauth/request_token",
+      :access_token_path => "/oauth/access_token",
+      :authorize_path => "/oauth/authorize"
+    )
+
+    request_token = OAuth::RequestToken.new(oauth, session[:twitter_token], session[:twitter_secret])
+
+    access_token = oauth.get_access_token(request_token, :oauth_verifier => params[:oauth_verifier])
+
+    puts "Access token: #{access_token.inspect}"
+
+    oauth = OAuth::Consumer.new(TWITTER_KEY, TWITTER_SECRET, { :site => 'https://api.twitter.com'})
+
+    response = oauth.request(:get, '/1.1/account/verify_credentials.json', access_token, { :scheme => :query_string })
+    
+    response_json = JSON.parse(response.body)
+
+    user = User.find_or_initialize_by(name: response_json["name"]) do |u|
+      u.avatar_url = response_json["profile_image_url_https"].gsub("_normal", '')
+      u.twitter_id = response_json["id"]
+      u.twitter_username = response_json["screen_name"]
+    end
+    user.twitter_access_token = access_token.token
+    user.twitter_token_secret = access_token.secret
+    user.twitter_profile_raw = response.body
+
+    puts response_json.inspect
+
+    if user.save
+      session[:twitter] = user.twitter_username
+      redirect "/sync/twitter"
+    else
+      "failed to create user account!"
+    end
+  end
+
+  get '/sync/twitter' do
     forced = params[:force] == 'true'
-    u = User.find_by(twitter_username: params[:username])
+    u = User.find_by(twitter_username: session[:twitter])
 
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = TWITTER_KEY
@@ -108,56 +151,13 @@ class App < Sinatra::Base
     end
   end
 
-  get '/auth/twitter/callback' do
-    oauth = OAuth::Consumer.new(
-      TWITTER_KEY,
-      TWITTER_SECRET,  
-      :site => 'https://api.twitter.com',
-      :scheme => :header,
-      :http_method => :post,
-      :request_token_path => "/oauth/request_token",
-      :access_token_path => "/oauth/access_token",
-      :authorize_path => "/oauth/authorize"
-    )
+  # LinkedIn
 
-    request_token = OAuth::RequestToken.new(oauth, session[:twitter_token], session[:twitter_secret])
-
-    access_token = oauth.get_access_token(request_token, :oauth_verifier => params[:oauth_verifier])
-
-    puts "Access token: #{access_token.inspect}"
-
-    oauth = OAuth::Consumer.new(TWITTER_KEY, TWITTER_SECRET, { :site => 'https://api.twitter.com'})
-
-    response = oauth.request(:get, '/1.1/account/verify_credentials.json', access_token, { :scheme => :query_string })
-    
-    response_json = JSON.parse(response.body)
-
-    user = User.find_or_initialize_by(name: response_json["name"]) do |u|
-      u.avatar_url = response_json["profile_image_url_https"].gsub("_normal", '')
-      u.twitter_id = response_json["id"]
-      u.twitter_username = response_json["screen_name"]
-    end
-    user.twitter_access_token = access_token.token
-    user.twitter_token_secret = access_token.secret
-    user.twitter_profile_raw = response.body
-
-    puts response_json.inspect
-
-    if user.save
-      session[:twitter] = user.twitter_username
-      redirect "/#{user.twitter_username}/sync"
-    else
-      "failed to create user account!"
-    end
-  end
-
-  # Github
-
-  get '/auth/github' do
+  get '/auth/linkedin' do
       # ...
     end
 
-  get '/auth/github/callback' do
+  get '/auth/linkedin/callback' do
     # ...
   end
 end
