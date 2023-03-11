@@ -11,9 +11,9 @@ require 'httparty'
 
 Dotenv.load()
 
-SERVER_HOST = '0.0.0.0'
-SERVER_PORT = '3000'
-BASE_URL    = "https://93cf-2600-1700-9e20-ba0-a57f-5756-a2b6-c16.ngrok.io"
+#SERVER_HOST = '0.0.0.0'
+#SERVER_PORT = '3000'
+BASE_URL    = ENV['BASE_URL']
 
 TWITTER_KEY            = ENV['TWITTER_KEY']
 TWITTER_SECRET         = ENV['TWITTER_SECRET']
@@ -31,11 +31,11 @@ PROGRAM_WEEK_OFFSET = 9
 # Sinatra settings
 enable :sessions
 
-set :bind, SERVER_HOST
-set :port, SERVER_PORT
+#set :bind, SERVER_HOST
+#set :port, SERVER_PORT
 
-set :static, false
-set :run, true
+#set :static, false
+#set :run, true
 
 helpers do
 
