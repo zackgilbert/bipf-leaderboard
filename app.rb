@@ -144,8 +144,6 @@ get '/auth/twitter/callback' do
   # check if user is already logged in with linkedin
   if session[:linkedin]
     user = User.find_by(linkedin_id: session[:linkedin])
-    user.avatar_url ||= response_json["profile_image_url_https"].gsub("_normal", '')
-    user.name ||= response_json['name']
     user.twitter_id = response_json["id"]
     user.twitter_username = response_json["screen_name"]
   else
@@ -157,6 +155,8 @@ get '/auth/twitter/callback' do
     end
   end
 
+  user.avatar_url ||= response_json["profile_image_url_https"].gsub("_normal", '')
+  user.name ||= response_json['name']
   user.twitter_access_token = access_token.token
   user.twitter_token_secret = access_token.secret
   user.twitter_profile_raw = response.body
