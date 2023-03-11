@@ -27,11 +27,10 @@ Tasks Completed on 2023-03-11
 - [x] Sort users by post activity
 - [x] Add endpoint for regular twitter syncing
 - [x] Put in end date for syncing
-- [x] Started working on timezone offset for post queries
+- [x] Resolved timezone post issues to use the user's browser timezone offset
 - [x] Fixed an issue with names on auth and removed unique index on user names
 
 Todo:
-- [ ] Fix timezone post issue
 - [ ] User LinkedIn authentication
 - [ ] User LinkedIn account syncing after authentication
 - [ ] Access webhooks from Twitter of new posts from auth'd users
