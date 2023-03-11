@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_11_215202) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_11_223512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,6 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_11_215202) do
     t.datetime "linkedin_last_synced_at"
     t.text "linkedin_last_error"
     t.text "linkedin_profile_raw"
+    t.string "timezone_offset"
     t.index ["linkedin_id"], name: "index_users_on_linkedin_id"
     t.index ["linkedin_username"], name: "index_users_on_linkedin_username"
     t.index ["twitter_id"], name: "index_users_on_twitter_id"

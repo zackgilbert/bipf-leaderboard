@@ -1,6 +1,7 @@
 # Gemfile
 source 'https://rubygems.org'
 gem 'sinatra'                 # web framework
+gem 'sinatra-contrib'         # for cookie support
 gem 'puma'                    # web server
 gem 'pg'                      # database (Postgresql)
 gem 'rake'                    # so we can run Rake tasks

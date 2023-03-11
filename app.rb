@@ -8,6 +8,7 @@ require 'json'
 require 'twitter'
 require 'linkedin'
 require 'httparty'
+require "sinatra/cookies"
 
 Dotenv.load()
 
@@ -161,6 +162,7 @@ get '/auth/twitter/callback' do
   user.twitter_access_token = access_token.token
   user.twitter_token_secret = access_token.secret
   user.twitter_profile_raw = response.body
+  user.timezone_offset = cookies[:timezone_offset] if cookies[:timezone_offset]
 
   puts response_json.inspect
 
