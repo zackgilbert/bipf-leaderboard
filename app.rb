@@ -156,7 +156,7 @@ get '/auth/twitter/callback' do
   end
 
   user.avatar_url ||= response_json["profile_image_url_https"].gsub("_normal", '')
-  user.name ||= response_json['name']
+  user.name = response_json['name']
   user.twitter_access_token = access_token.token
   user.twitter_token_secret = access_token.secret
   user.twitter_profile_raw = response.body
