@@ -14,6 +14,14 @@ Tasks Completed on 2023-03-09
 <img width="772" alt="Screen Shot 2023-03-09 at 9 19 53 PM" src="https://user-images.githubusercontent.com/432526/224217546-2184d982-43ab-4acc-bad1-cb6575e8b9a4.png">
 
 
+Tasks Completed on 2023-03-10
+- [x] Get setup on a server w/ proper domain
+- [x] Separate Twitter / LinkedIn activity
+- [x] Break out activity by weeks
+- [x] Add daily streaks
+<img width="778" alt="Screen Shot 2023-03-10 at 8 51 06 PM" src="https://user-images.githubusercontent.com/432526/224461141-b445006d-c9d4-4c6e-8d19-e21379f11d37.png">
+
+
 Todo:
 - [ ] Sort users by activity
 - [ ] User LinkedIn authentication
@@ -22,5 +30,3 @@ Todo:
 - [ ] Access webhooks from Twitter of new posts from auth'd users
 - [ ] Access webhooks from LinkedIn of new posts from auth'd users
 - [ ] Put in end date for syncing
-- [ ] Get setup on a server w/ proper domain
-- [ ] Add streaks

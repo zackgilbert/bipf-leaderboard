@@ -1,7 +1,7 @@
  # in config/database.rb
  # set the database based on the current environment
  # The name in the below line is because my main app controller class in app.rb
-database_name = "bipf-leaderboard-#{App.environment}"
+database_name = ENV['DATABASE_NAME'] || "bipf-leaderboard-#{App.environment}"
 db = URI.parse( ENV['DATABASE_URL'] || "postgres://localhost/#{database_name}")
 
  # connect ActiveRecord with the current database
