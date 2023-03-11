@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_10_021918) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_10_221608) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,7 +39,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_10_021918) do
     t.text "twitter_profile_raw"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "linkedin_id"
+    t.string "linkedin_username"
+    t.string "linkedin_access_token"
+    t.string "linkedin_token_secret"
+    t.datetime "linkedin_last_synced_at"
+    t.text "linkedin_last_error"
+    t.text "linkedin_profile_raw"
+    t.index ["linkedin_id"], name: "index_users_on_linkedin_id"
+    t.index ["linkedin_username"], name: "index_users_on_linkedin_username"
     t.index ["name"], name: "index_users_on_name", unique: true
+    t.index ["twitter_id"], name: "index_users_on_twitter_id"
+    t.index ["twitter_username"], name: "index_users_on_twitter_username"
   end
 
   add_foreign_key "posts", "users"
