@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_10_221608) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_11_215202) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,7 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_10_221608) do
     t.text "linkedin_profile_raw"
     t.index ["linkedin_id"], name: "index_users_on_linkedin_id"
     t.index ["linkedin_username"], name: "index_users_on_linkedin_username"
-    t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["twitter_id"], name: "index_users_on_twitter_id"
     t.index ["twitter_username"], name: "index_users_on_twitter_username"
   end
