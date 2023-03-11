@@ -1,7 +1,8 @@
 # Gemfile
 source 'https://rubygems.org'
-gem 'sinatra'
-gem 'pg'                      # for Postgres
+gem 'sinatra'                 # web framework
+gem 'puma'                    # web server
+gem 'pg'                      # database (Postgresql)
 gem 'rake'                    # so we can run Rake tasks
 gem 'sinatra-activerecord'    # for Active Record models
 gem 'dotenv'                  # securely stored environment variables
