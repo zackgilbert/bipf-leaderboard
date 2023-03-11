@@ -27,6 +27,7 @@ LINKEDIN_SCOPE         = 'r_liteprofile+r_organization_social' #'r_basicprofile'
 PROGRAM_START_DATE = '2023-03-08'
 PROGRAM_END_DATE = '2023-04-14'
 PROGRAM_WEEK_OFFSET = 9
+PROGRAM_HOUR_OFFSET = 18000
 
 # Sinatra settings
 enable :sessions

@@ -82,7 +82,7 @@
                   </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
                     <% weeks[selected_week][:start].upto(weeks[selected_week][:end]) do |date| %>
-                      <% posts_on_date = u.posts.where("posted_at >= ? AND posted_at < ?", DateTime.parse("#{date}"), DateTime.parse("#{date}")+1.day).count %>
+                      <% posts_on_date = u.posts_by_date(date).count %>
                       <span class="inline-flex items-center rounded-full cursor-pointer px-2.5 py-0.5 text-xs font-medium <%= posts_on_date > 0 ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-800' %>" title="<%= posts_on_date %> Posts on <%= date %>"><%= (date.wday == 4) ? 'TH' : date.strftime("%A")[0] %></span>
                     <% end %>
                   </td>
