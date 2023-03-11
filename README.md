@@ -26,10 +26,12 @@ Tasks Completed on 2023-03-11
 - [x] Get IRB working using `irb -r ./app.rb`
 - [x] Sort users by post activity
 - [x] Add endpoint for regular twitter syncing
+- [x] Put in end date for syncing
+
 
 Todo:
 - [ ] User LinkedIn authentication
 - [ ] User LinkedIn account syncing after authentication
 - [ ] Access webhooks from Twitter of new posts from auth'd users
 - [ ] Access webhooks from LinkedIn of new posts from auth'd users
-- [ ] Put in end date for syncing
+- [ ] Fix timezone post issue
