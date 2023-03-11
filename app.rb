@@ -22,7 +22,7 @@ TWITTER_CALLBACK       = "#{BASE_URL}/auth/twitter/callback"
 LINKEDIN_KEY           = ENV['LINKEDIN_KEY']
 LINKEDIN_SECRET        = ENV['LINKEDIN_SECRET']
 LINKEDIN_CALLBACK      = "#{BASE_URL}/auth/linkedin/callback"
-LINKEDIN_SCOPE         = 'r_liteprofile' #'r_basicprofile+r_member_social'
+LINKEDIN_SCOPE         = 'r_liteprofile+r_organization_social' #'r_basicprofile'
 
 PROGRAM_START_DATE = '2023-03-08'
 PROGRAM_END_DATE = '2023-04-14'
@@ -94,6 +94,7 @@ get '/' do
     .where("users.name IS NOT NULL")
     .group('users.id')
     .order('posts_count DESC')
+  puts @users.to_sql
 
   erb :twitter
 end
@@ -144,6 +145,7 @@ get '/auth/twitter/callback' do
   if session[:linkedin]
     user = User.find_by(linkedin_id: session[:linkedin])
     user.avatar_url ||= response_json["profile_image_url_https"].gsub("_normal", '')
+    user.name ||= response_json['name']
     user.twitter_id = response_json["id"]
     user.twitter_username = response_json["screen_name"]
   else
@@ -151,6 +153,7 @@ get '/auth/twitter/callback' do
       u.avatar_url = response_json["profile_image_url_https"].gsub("_normal", '')
       u.twitter_id = response_json["id"]
       u.twitter_username = response_json["screen_name"]
+      u.name = response_json['name']
     end
   end
 

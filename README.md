@@ -30,8 +30,8 @@ Tasks Completed on 2023-03-11
 
 
 Todo:
+- [ ] Fix timezone post issue
 - [ ] User LinkedIn authentication
 - [ ] User LinkedIn account syncing after authentication
 - [ ] Access webhooks from Twitter of new posts from auth'd users
 - [ ] Access webhooks from LinkedIn of new posts from auth'd users
-- [ ] Fix timezone post issue
