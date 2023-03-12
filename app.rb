@@ -8,6 +8,7 @@ require 'json'
 require 'twitter'
 require 'linkedin'
 require 'httparty'
+require "sinatra/cookies"
 
 Dotenv.load()
 
@@ -22,11 +23,12 @@ TWITTER_CALLBACK       = "#{BASE_URL}/auth/twitter/callback"
 LINKEDIN_KEY           = ENV['LINKEDIN_KEY']
 LINKEDIN_SECRET        = ENV['LINKEDIN_SECRET']
 LINKEDIN_CALLBACK      = "#{BASE_URL}/auth/linkedin/callback"
-LINKEDIN_SCOPE         = 'r_liteprofile' #'r_basicprofile+r_member_social'
+LINKEDIN_SCOPE         = 'r_liteprofile+r_organization_social' #'r_basicprofile'
 
 PROGRAM_START_DATE = '2023-03-08'
 PROGRAM_END_DATE = '2023-04-14'
 PROGRAM_WEEK_OFFSET = 9
+PROGRAM_HOUR_OFFSET = 18000
 
 # Sinatra settings
 enable :sessions
@@ -87,6 +89,19 @@ helpers do
 end
 
 get '/' do
+  # Doesn't include people with 0 posts:
+  # @users = User.left_outer_joins(:posts)
+  #   .distinct
+  #   .select('users.*, COUNT(posts.id) AS posts_count')
+  #   .where("(posts.provider = 'twitter') AND (DATE(posts.posted_at) >= ?) AND (DATE(posts.posted_at) <= ?)", weeks[selected_week][:start], weeks[selected_week][:end])
+  #   #.where('users.id IS NOT NULL')
+  #   #.where("users.twitter_username IS NOT NULL")
+  #   .group('users.id')
+  #   .order('posts_count DESC')
+  # puts @users.to_sql
+  @users = User.where.not(id: nil).to_a
+  @users.sort! { |a, b| b.posts.where(posted_at: [weeks[selected_week][:start]..weeks[selected_week][:end]]).count <=> a.posts.where(posted_at: [weeks[selected_week][:start]..weeks[selected_week][:end]]).count }
+
   erb :twitter
 end
 
@@ -135,7 +150,6 @@ get '/auth/twitter/callback' do
   # check if user is already logged in with linkedin
   if session[:linkedin]
     user = User.find_by(linkedin_id: session[:linkedin])
-    user.avatar_url ||= response_json["profile_image_url_https"].gsub("_normal", '')
     user.twitter_id = response_json["id"]
     user.twitter_username = response_json["screen_name"]
   else
@@ -143,12 +157,16 @@ get '/auth/twitter/callback' do
       u.avatar_url = response_json["profile_image_url_https"].gsub("_normal", '')
       u.twitter_id = response_json["id"]
       u.twitter_username = response_json["screen_name"]
+      u.name = response_json['name']
     end
   end
 
+  user.avatar_url ||= response_json["profile_image_url_https"].gsub("_normal", '')
+  user.name = response_json['name']
   user.twitter_access_token = access_token.token
   user.twitter_token_secret = access_token.secret
   user.twitter_profile_raw = response.body
+  user.timezone_offset = cookies[:timezone_offset] if cookies[:timezone_offset]
 
   puts response_json.inspect
 

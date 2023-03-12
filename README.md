@@ -1,5 +1,8 @@
 # Build In Public Fellowship Leaderboard
 
+## WARNING! THIS IS NOT PRODUCTION READY! USE AT OWN RISK!
+
+
 The following is a mini project built in Sinatra (Ruby) w/ Tailwind css that was started on 2023-03-09 at the request of @thisiskp_:
 <img width="365" alt="Screen Shot 2023-03-09 at 9 18 49 PM" src="https://user-images.githubusercontent.com/432526/224217505-b4511728-1801-4548-96f8-f7b44278d68e.png">
 
@@ -22,11 +25,17 @@ Tasks Completed on 2023-03-10
 <img width="778" alt="Screen Shot 2023-03-10 at 8 51 06 PM" src="https://user-images.githubusercontent.com/432526/224461141-b445006d-c9d4-4c6e-8d19-e21379f11d37.png">
 
 
+Tasks Completed on 2023-03-11
+- [x] Get IRB working using `irb -r ./app.rb`
+- [x] Sort users by post activity
+- [x] Add endpoint for regular twitter syncing
+- [x] Put in end date for syncing
+- [x] Resolved timezone post issues to use the user's browser timezone offset
+- [x] Fixed an issue with names on auth and removed unique index on user names
+
+
 Todo:
-- [ ] Sort users by activity
 - [ ] User LinkedIn authentication
 - [ ] User LinkedIn account syncing after authentication
-- [ ] Script to run hourly to sync of auth'd users
 - [ ] Access webhooks from Twitter of new posts from auth'd users
 - [ ] Access webhooks from LinkedIn of new posts from auth'd users
-- [ ] Put in end date for syncing
