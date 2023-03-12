@@ -34,6 +34,12 @@ Tasks Completed on 2023-03-11
 - [x] Fixed an issue with names on auth and removed unique index on user names
 
 
+Tasks Completed on 2023-03-12
+- [x] Added [Fathom Analytics](https://usefathom.com/ref/DNQLHG)
+- [x] Added some mobile optimization
+- [x] Extracted main page layout into its own template
+
+
 Todo:
 - [ ] User LinkedIn authentication
 - [ ] User LinkedIn account syncing after authentication
