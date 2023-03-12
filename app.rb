@@ -89,14 +89,18 @@ helpers do
 end
 
 get '/' do
-  @users = User
-    .select("users.*, count(posts.id) AS posts_count")
-    .joins(' FULL OUTER JOIN "posts" ON "users"."id" = "posts"."id" ')
-    .where("(posts.posted_at >= ?) AND (posts.posted_at < ?)", weeks[selected_week][:start], weeks[selected_week][:end])
-    .where("users.name IS NOT NULL")
-    .group('users.id')
-    .order('posts_count DESC')
-  puts @users.to_sql
+  # Doesn't include people with 0 posts:
+  # @users = User.left_outer_joins(:posts)
+  #   .distinct
+  #   .select('users.*, COUNT(posts.id) AS posts_count')
+  #   .where("(posts.provider = 'twitter') AND (DATE(posts.posted_at) >= ?) AND (DATE(posts.posted_at) <= ?)", weeks[selected_week][:start], weeks[selected_week][:end])
+  #   #.where('users.id IS NOT NULL')
+  #   #.where("users.twitter_username IS NOT NULL")
+  #   .group('users.id')
+  #   .order('posts_count DESC')
+  # puts @users.to_sql
+  @users = User.where.not(id: nil).to_a
+  @users.sort! { |a, b| b.posts.where(posted_at: [weeks[selected_week][:start]..weeks[selected_week][:end]]).count <=> a.posts.where(posted_at: [weeks[selected_week][:start]..weeks[selected_week][:end]]).count }
 
   erb :twitter
 end
