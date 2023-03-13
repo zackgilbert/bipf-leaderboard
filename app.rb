@@ -126,12 +126,27 @@ get '/me' do
   end
 end
 
+get '/login' do
+  redirect '/auth/twitter'
+end
+
 # Twitter
 get '/twitter' do
   redirect '/'
 end
 
+post '/auth/twitter' do
+  cookies[:password] = params[:password] if params[:password] == ENV['BIPF_PASSWORD']
+  redirect '/auth/twitter'
+end
+
 get '/auth/twitter' do
+
+  if !cookies[:password] || cookies[:password] != ENV['BIPF_PASSWORD']
+    halt erb(:password)
+    return
+  end
+
   oauth = OAuth::Consumer.new(
     TWITTER_KEY,
     TWITTER_SECRET,  
