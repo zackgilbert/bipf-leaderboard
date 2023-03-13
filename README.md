@@ -42,7 +42,7 @@ Tasks Completed on 2023-03-12
 
 Tasks Completed on 2023-03-13
 - [x] Fix counts per week
-- [x] Cron job task syncs for entire for entire program
+- [x] Cron job task syncs for entire program
 - [x] Add a /me page to help troubleshoot your individual activity
 
 
