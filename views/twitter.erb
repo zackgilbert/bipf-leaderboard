@@ -52,10 +52,6 @@
                     <div class="text-gray-900">
                       <% if u.twitter_username %>
                       <a href="https://twitter.com/<%= u.twitter_username %>" title="Last synced: <%= u.twitter_last_synced_at %>"><%= u.posts_by_period(weeks[selected_week][:start], weeks[selected_week][:end]).count %></a>
-                      <!-- <%= u.posts_by_period(weeks[selected_week][:start], weeks[selected_week][:end]).to_sql %> -->
-                      <% if session[:twitter] && (session[:twitter] == u.twitter_username) && (session[:twitter_forced] != true) %>
-                      <a href="/sync/twitter?force=true">(force sync)</a>
-                      <% end %>
                       <% else %>
                       N/A
                       <% end %>
