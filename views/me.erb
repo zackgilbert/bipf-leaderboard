@@ -1,11 +1,47 @@
 
-<blockquote>
-<%= @user.to_json %>
-</blockquote>
-
 <div class="max-w-2xl my-10 mx-auto">
-<% @user.posts.order('posted_at DESC').each do |tweet| %>
-  <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><%= tweet.body %></p>&mdash; <%= @user.name %> (<%= @user.twitter_username %>) <a href="https://twitter.com/<%= @user.twitter_username %>/status/<%= tweet.provider_id %>?ref_src=twsrc%5Etfw"><%= tweet.posted_at %></a></blockquote>
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<% end %>
+
+  <div class="flex items-center">
+    <div class="h-10 w-10 flex-shrink-0">
+      <img class="h-10 w-10 rounded-full" src="<%= @user.avatar_url %>" alt="">
+    </div>
+    <div class="ml-4">
+      <div class="font-medium text-gray-900">
+        <%= @user.name %>
+      </div>
+      <div class="text-gray-500">
+
+        <% if @user.twitter_username %>
+        <a href="https://twitter.com/<%= @user.twitter_username %>">
+          <svg viewBox="0 0 20 20" aria-hidden="true" class="h-5 w-5 fill-slate-400"><path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0 0 20 3.92a8.19 8.19 0 0 1-2.357.646 4.118 4.118 0 0 0 1.804-2.27 8.224 8.224 0 0 1-2.605.996 4.107 4.107 0 0 0-6.993 3.743 11.65 11.65 0 0 1-8.457-4.287 4.106 4.106 0 0 0 1.27 5.477A4.073 4.073 0 0 1 .8 7.713v.052a4.105 4.105 0 0 0 3.292 4.022 4.095 4.095 0 0 1-1.853.07 4.108 4.108 0 0 0 3.834 2.85A8.233 8.233 0 0 1 0 16.407a11.615 11.615 0 0 0 6.29 1.84"></path></svg>
+        </a>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="flex">
+    <div class="">
+      Timezone offset: <%= @user.timezone_offset %> (<%= @user.timezone_offset.to_i / 60 / 60 %> hours)<br>
+      Period: <% if @selected_week == 'all' %>Entire Program<% else %><%= weeks[@selected_week][:start] %> - <%= weeks[@selected_week][:end] %><% end %><br>
+      Total: <%= @posts.count %>
+    </div>
+    <div class="mt-4 sm:mt-0 sm:ml-16">
+      <select name="week" class="block max-w-l m-auto py-2 px-3 rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" onchange="window.location = '?week=' + this.value">
+        <option value="">Entire Fellowship</option>
+        <% weeks.each do |num, dates| %>
+        <option value="<%= num %>"<%= ' selected' if num == @selected_week %><%= ' disabled' if Date.today < dates[:start] %>>Week <%= num %><% if Date.today.between?(dates[:start], dates[:end]) %> (current)<% end %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <div class="my-10">
+    <% @posts.order('posted_at DESC').each do |tweet| %>
+    <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><%= tweet.body %></p>&mdash; <%= @user.name %> (<%= @user.twitter_username %>) <a href="https://twitter.com/<%= @user.twitter_username %>/status/<%= tweet.provider_id %>?ref_src=twsrc%5Etfw"><%= tweet.posted_at %></a></blockquote>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <% end %>
+  </div>
+
 </div>

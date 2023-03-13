@@ -108,6 +108,18 @@ end
 get '/me' do
   if session[:twitter]
     @user = User.find_by(twitter_username: session[:twitter])
+
+    @selected_week = 'all'
+    if params[:week].present? && params[:week].to_i > 0
+      @selected_week = params[:week].to_i
+    end
+
+    if @selected_week == 'all'
+      @posts = @user.posts.order('posted_at DESC')
+    else
+      @posts = @user.posts_by_period(weeks[@selected_week][:start], weeks[@selected_week][:end])
+    end
+
     erb :me
   else
     redirect '/auth/twitter'
