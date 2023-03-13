@@ -105,6 +105,15 @@ get '/' do
   erb :twitter
 end
 
+get '/me' do
+  if session[:twitter]
+    @user = User.find_by(twitter_username: session[:twitter])
+    erb :me
+  else
+    redirect '/auth/twitter'
+  end
+end
+
 # Twitter
 get '/twitter' do
   redirect '/'

@@ -25,25 +25,8 @@
       </div>
       <div class="mt-8 flow-root">
 
-        <div class="flex items-center">
-          <div class="flex-auto">
-            <svg viewBox="0 0 20 20" aria-hidden="true" class="h-5 w-5 fill-blue-600 float-left"><path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0 0 20 3.92a8.19 8.19 0 0 1-2.357.646 4.118 4.118 0 0 0 1.804-2.27 8.224 8.224 0 0 1-2.605.996 4.107 4.107 0 0 0-6.993 3.743 11.65 11.65 0 0 1-8.457-4.287 4.106 4.106 0 0 0 1.27 5.477A4.073 4.073 0 0 1 .8 7.713v.052a4.105 4.105 0 0 0 3.292 4.022 4.095 4.095 0 0 1-1.853.07 4.108 4.108 0 0 0 3.834 2.85A8.233 8.233 0 0 1 0 16.407a11.615 11.615 0 0 0 6.29 1.84"></path></svg>
-            <a readonly title="Coming Soon"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 fill-gray-300 <% 'hover:fill-blue-400' %> float-left" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
-          </div>
-          <div class="mt-4 sm:mt-0 sm:ml-16 flex-none">
-            <select name="week" class="block max-w-l m-auto py-2 px-3 rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" onchange="window.location = '?week=' + this.value">
-              <% weeks.each do |num, dates| %>
-              <option value="<%= num %>"<%= ' selected' if num == selected_week %><%= ' disabled' if Date.today < dates[:start] %>>Week <%= num %><% if Date.today.between?(dates[:start], dates[:end]) %> (current)<% end %></option>
-              <% end %>
-            </select>
-          </div>
-        </div>
+        <%= yield %>
 
-        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <%= yield %>
-          </div>
-        </div>
       </div>
     </div>
 

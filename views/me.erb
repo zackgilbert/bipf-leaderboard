@@ -1,0 +1,11 @@
+
+<blockquote>
+<%= @user.to_json %>
+</blockquote>
+
+<div class="max-w-2xl my-10 mx-auto">
+<% @user.posts.order('posted_at DESC').each do |tweet| %>
+  <blockquote class="twitter-tweet"><p lang="en" dir="ltr"><%= tweet.body %></p>&mdash; <%= @user.name %> (<%= @user.twitter_username %>) <a href="https://twitter.com/<%= @user.twitter_username %>/status/<%= tweet.provider_id %>?ref_src=twsrc%5Etfw"><%= tweet.posted_at %></a></blockquote>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<% end %>
+</div>
