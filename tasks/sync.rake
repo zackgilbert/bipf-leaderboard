@@ -14,7 +14,7 @@ task :twitter do
     end
 
     begin
-      query = "from:#{u.twitter_username} since:#{u.twitter_last_synced_at} exclude:replies exclude:retweets"
+      query = "from:#{u.twitter_username} since:#{PROGRAM_START_DATE} exclude:replies exclude:retweets"
       puts "Fetching recent tweets: #{query}\n\n"
       @tweets = client.search(query, result_type: "recent")
 

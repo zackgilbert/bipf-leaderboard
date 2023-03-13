@@ -100,9 +100,34 @@ get '/' do
   #   .order('posts_count DESC')
   # puts @users.to_sql
   @users = User.where.not(id: nil).to_a
-  @users.sort! { |a, b| b.posts.where(posted_at: [weeks[selected_week][:start]..weeks[selected_week][:end]]).count <=> a.posts.where(posted_at: [weeks[selected_week][:start]..weeks[selected_week][:end]]).count }
+  @users.sort! { |a, b| b.posts_by_period(weeks[selected_week][:start], weeks[selected_week][:end]).count <=> a.posts_by_period(weeks[selected_week][:start], weeks[selected_week][:end]).count }
 
   erb :twitter
+end
+
+get '/me' do
+  if session[:twitter]
+    @user = User.find_by(twitter_username: session[:twitter])
+
+    @selected_week = 'all'
+    if params[:week].present? && params[:week].to_i > 0
+      @selected_week = params[:week].to_i
+    end
+
+    if @selected_week == 'all'
+      @posts = @user.posts.order('posted_at DESC')
+    else
+      @posts = @user.posts_by_period(weeks[@selected_week][:start], weeks[@selected_week][:end])
+    end
+
+    erb :me
+  else
+    redirect '/auth/twitter'
+  end
+end
+
+get '/login' do
+  redirect '/auth/twitter'
 end
 
 # Twitter
@@ -110,7 +135,18 @@ get '/twitter' do
   redirect '/'
 end
 
+post '/auth/twitter' do
+  cookies[:password] = params[:password] if params[:password] == ENV['BIPF_PASSWORD']
+  redirect '/auth/twitter'
+end
+
 get '/auth/twitter' do
+
+  if !cookies[:password] || cookies[:password] != ENV['BIPF_PASSWORD']
+    halt erb(:password)
+    return
+  end
+
   oauth = OAuth::Consumer.new(
     TWITTER_KEY,
     TWITTER_SECRET,  
