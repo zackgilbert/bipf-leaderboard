@@ -100,7 +100,7 @@ get '/' do
   #   .order('posts_count DESC')
   # puts @users.to_sql
   @users = User.where.not(id: nil).to_a
-  @users.sort! { |a, b| b.posts.where(posted_at: [weeks[selected_week][:start]..weeks[selected_week][:end]]).count <=> a.posts.where(posted_at: [weeks[selected_week][:start]..weeks[selected_week][:end]]).count }
+  @users.sort! { |a, b| b.posts.posts_by_period(weeks[selected_week][:start], weeks[selected_week][:end]).count <=> a.posts_by_period(weeks[selected_week][:start], weeks[selected_week][:end]).count }
 
   erb :twitter
 end
